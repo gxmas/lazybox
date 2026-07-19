@@ -44,6 +44,29 @@ workspace — built for developers juggling many PRs and AI coding agents at onc
 - **🔌 Source-agnostic** — GitHub and Linear today, surfacing in one inbox behind the same interface, with an optional Slack mirror.
 - **🛰️ Remote-friendly** — a client/daemon split runs over an SSH-forwarded socket for working against a remote box.
 
+## Requirements
+
+Running a prebuilt binary needs almost nothing: the
+[GitHub CLI](https://cli.github.com/), logged in (`gh auth login`), so lazybox
+can read `gh auth token` for real GitHub-backed runs — `lazybox --test` skips
+it entirely.
+
+Building from source additionally needs:
+
+- **Rust 1.88+** (via [`rustup`](https://rustup.rs)) — the pinned toolchain
+  lives in `rust-toolchain.toml`
+- **A C/C++ toolchain** — links the embedded ghostty terminal and the bundled
+  SQLite
+- **git, curl, tar, sha256sum/shasum** — `make setup` uses these to fetch and
+  checksum-verify a pinned Zig toolchain
+- **Linux only: libc++ and libc++abi** — the embedded ghostty terminal is
+  built by Zig against LLVM's libc++, not GNU libstdc++; distro install
+  commands are under [Install](#install)
+
+Zig itself isn't something you install — `make setup` downloads the exact
+pinned 0.15.2 build into `~/.cache/lazybox/zig/`, so no system Zig is required
+or used.
+
 ## Install
 
 Prebuilt binaries (macOS arm64/x86_64 and Linux x86_64):
